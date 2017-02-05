@@ -1,18 +1,15 @@
-FROM buildpack-deps:jessie-curl
+FROM daocloud.io/doitian/java:latest
 
-ENV LANG C.UTF-8
+ENV GRADLE_VERSION=3.3 \
+    ANT_VERSION=1.10.0 \
+    MAVEN_VERSION=3.3.9
 
-RUN { \
-      echo '#!/bin/sh'; \
-      echo 'set -e'; \
-      echo; \
-      echo 'dirname "$(dirname "$(readlink -f "$(which javac || which java)")")"'; \
-    } > /usr/local/bin/docker-java-home \
-    && chmod +x /usr/local/bin/docker-java-home
+RUN curl -L -o /tmp/gradle-$GRADLE_VERSION-bin.zip https://downloads.gradle.org/distributions/gradle-$GRADLE_VERSION-bin.zip \
+ && unzip /tmp/gradle-$GRADLE_VERSION-bin.zip -d /opt \
+ && rm -f /tmp/gradle-$GRADLE_VERSION-bin.zip \
+ && mkdir -p /opt/apache-ant-$ANT_VERSION \
+ && curl -L -o - http://mirror.cogentco.com/pub/apache/ant/binaries/apache-ant-$ANT_VERSION-bin.tar.gz | tar -C /opt/apache-ant-$ANT_VERSION --strip-components 1 -xzf - \
+ && mkdir -p /opt/apache-maven-$MAVEN_VERSION \
+ && curl -L -o - http://mirrors.ocf.berkeley.edu/apache/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz | tar -C /opt/apache-maven-$MAVEN_VERSION --strip-components 1 -xzf -
 
-RUN mkdir -p /usr/lib/java/jdk-8u121 \
- && curl -L -H "Cookie:oraclelicense=accept-securebackup-cookie" -o - http://download.oracle.com/otn-pub/java/jdk/8u121-b13/e9e7ea248e2c4826b92b3f075a80e441/jdk-8u121-linux-x64.tar.gz | tar -C /usr/lib/java/jdk-8u121 --strip-components 1 -xzf -
-
-ENV JAVA_VERSION 8u121
-ENV JAVA_HOME /usr/lib/java/jdk-8u121
-ENV PATH $PATH:/usr/lib/java/jdk-8u121/bin
+ENV PATH $PATH:/opt/gradle-$GRADLE_VERSION/bin:/opt/apache-ant-$ANT_VERSION/bin:/opt/apache-maven-$MAVEN_VERSION/bin

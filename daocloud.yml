@@ -1,0 +1,14 @@
+build:
+  lite_image:
+    compile:
+      dockerfile_path: Dockerfile
+      build_dir: /
+      cache: true
+
+    extract:
+      - /opt
+
+    package:
+      dockerfile_path: Dockerfile.sec
+      build_dir: /
+      cache: false
