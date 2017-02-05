@@ -1,4 +1,6 @@
-FROM alpine:latest
+FROM debian:latest
+
+ENV LANG C.UTF-8
 
 COPY usr/local/bin/docker-java-home /usr/local/bin/docker-java-home
 COPY usr/lib/java /usr/lib/java
