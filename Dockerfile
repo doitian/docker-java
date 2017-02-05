@@ -1,5 +1,7 @@
 FROM daocloud.io/doitian/java:latest
 
+RUN apt-get update && apt-get install -y curl unzip && rm -rf /var/lib/apt/lists/*
+
 ENV GRADLE_VERSION=3.3 \
     ANT_VERSION=1.10.0 \
     MAVEN_VERSION=3.3.9
