@@ -1,10 +1,9 @@
 FROM debian:latest
 
-ENV LANG C.UTF-8
+COPY opt /opt
 
-COPY usr/local/bin/docker-java-home /usr/local/bin/docker-java-home
-COPY usr/lib/java /usr/lib/java
+ENV GRADLE_VERSION=3.3 \
+    ANT_VERSION=1.10.0 \
+    MAVEN_VERSION=3.3.9
 
-ENV JAVA_VERSION 8u121
-ENV JAVA_HOME /usr/lib/java/jdk-8u121
-ENV PATH $PATH:/usr/lib/java/jdk-8u121/bin
+ENV PATH $PATH:/opt/gradle-$GRADLE_VERSION/bin:/opt/apache-ant-$ANT_VERSION/bin:/opt/apache-maven-$MAVEN_VERSION/bin
