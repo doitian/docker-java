@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM daocloud.io/doitian/java:latest
 
 COPY opt /opt
 
