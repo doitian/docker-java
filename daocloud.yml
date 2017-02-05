@@ -1,0 +1,15 @@
+build:
+  lite_image:
+    compile:
+      dockerfile_path: Dockerfile
+      build_dir: /
+      cache: true
+
+    extract:
+      - /usr/local/bin/docker-java-home
+      - /usr/lib/java
+
+    package:
+      dockerfile_path: Dockerfile.sec
+      build_dir: /
+      cache: false
